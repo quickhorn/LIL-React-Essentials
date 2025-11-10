@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import './App.css';
 import chef from "./images/chef.png"
 
@@ -40,9 +41,19 @@ function Main({ dishes }) {
 }
 
 function App() {
+  //learned that the variables status and setStatus are destructured
+  //array indexes for the object returend from useState. "Open" is the initial
+  //state. status is the variable to be used, and setStatus
+  //is the method that will be called to update the status variable
+  //neat to finally have someone explain it.
+  const [status, setStatus] = useState("Open");
   return (
     <div>
-      <Header name="Alex" year={2025} />
+      <h1>The restaurant is currently {status}.</h1>
+      <button onClick={() => setStatus("Closed")}>
+        Close Restaurant
+      </button>
+      <Header name="Alex" year={new Date().getFullYear()} />
       <Main dishes={dishObjects} />
     </div>
   );
