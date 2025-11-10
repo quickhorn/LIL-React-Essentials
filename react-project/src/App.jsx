@@ -1,9 +1,23 @@
-import './App.css'
+import './App.css';
+
+function Header({ name, year }) {
+  return (
+    <header>
+      <h1>{name}'s Kitchen</h1>
+      <p>Copyright {year}</p>
+    </header>
+  )
+}
 
 function App() {
   return (
-    <h1>hello React</h1>
-  )
+    <div>
+      <Header name="Alex" year={2025} />
+      <main>
+        <h2>We serve the most delicious food around</h2>
+      </main>
+    </div>
+  );
 }
 
 export default App
