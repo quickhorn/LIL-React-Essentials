@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useReducer } from 'react';
 import './App.css';
 import chef from "./images/chef.png"
 
@@ -24,10 +24,11 @@ const dishObjects = items.map((dish, i) => ({
 }))
 
 
-function Main({ dishes }) {
+function Main({ dishes, openStatus, onStatus }) {
   return (
     <>
-      <div><h2>Welcome to this beautiful restaurant</h2></div >
+      <button onClick={() => onStatus(true)}>I want to be {!openStatus ? "open" : "closed"}</button>
+      <div><h2>Welcome to this beautiful restaurant! {openStatus ? "OPEN" : "CLOSED"} </h2></div >
       <main>
         <img src={chef} height={200} alt="Photo of our Chef" />
         <ul>
@@ -46,15 +47,24 @@ function App() {
   //state. status is the variable to be used, and setStatus
   //is the method that will be called to update the status variable
   //neat to finally have someone explain it.
-  const [status, setStatus] = useState("Open");
+
+  // const [restaurantOpen, setStatus] = useState(true);
+  const [restaurantOpen, toggleOpen] = useReducer((status) => !status, true)
+
+  useEffect(() => {
+    console.log(`The restaurant is ${restaurantOpen ? "open" : "closed"}.`);
+  }, [])
   return (
     <div>
-      <h1>The restaurant is currently {status}.</h1>
-      <button onClick={() => setStatus("Closed")}>
-        Close Restaurant
+      <h1>The restaurant is currently {restaurantOpen ? "open" : "closed"}.</h1>
+      <button onClick={toggleOpen}>
+        {restaurantOpen ? "Close" : "Open"} Restaurant
       </button>
       <Header name="Alex" year={new Date().getFullYear()} />
-      <Main dishes={dishObjects} />
+      <Main
+        dishes={dishObjects}
+        openStatus={restaurantOpen}
+        onStatus={toggleOpen} />
     </div>
   );
 }
